@@ -5,7 +5,7 @@ hidden=$4
 dataset=$5
 alpha=$6
 
-python train_cifar.py --seed 0 --alpha 100 --eps 0.1 --dataset $dataset --init orthogonal --depth $num_layers --num_nonlinear $num_nonlinear --hidden $hidden --sample_size $sample
+python train_cifar.py --seed 0 --alpha $alpha --eps 0.1 --dataset $dataset --init orthogonal --depth $num_layers --num_nonlinear $num_nonlinear --hidden $hidden --sample_size $sample
 
 for layer_idx in {0..8}; 
     do
