@@ -17,3 +17,8 @@ for layer_idx in {0..8};
         --load_path saved_linear/dataset_${dataset}_w${hidden}_d{args.depth}_nd${num_nonlinear}_init_orthogonal_eps0.1_sample${sample}/
 done
 
+python post_processing.py \
+    --load_path saved_linear/dataset_${dataset}_w${hidden}_d{args.depth}_nd${num_nonlinear}_init_orthogonal_eps0.1_sample${sample}/ \
+    --depth $num_layers \
+    --num_nonlinear $num_nonlinear \
+    --hidden $hidden
