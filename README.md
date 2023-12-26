@@ -8,7 +8,7 @@ Over the past decade, deep learning has proven to be a highly effective tool for
 
 ## Environment
 
-Please check the requirement.sh
+Please check `requirement.sh`
 
 ## Check Assumption 2 in the paper (Figure 6)
 
