@@ -1,0 +1,26 @@
+description: "Understanding Deep Representation Learning via Layerwise Feature Compression and Discrimination"
+url: "https://heimine.github.io/"
+baseurl: "/PNC_DLN"
+repository: "heimine/PNC_DLN"
+
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin: "air"   # try: "air", "dark", "mint", "sunrise"
+
+plugins:
+  - jekyll-include-cache
+
+markdown: kramdown
+kramdown:
+  input: GFM
+
+author:
+  name: "Xiao Li"
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: single
+      classes: wide
+      toc: false
+      toc_sticky: false
