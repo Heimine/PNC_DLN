@@ -348,8 +348,10 @@ mjx-container[display="true"] {
 }
 
 @media (min-width: 50em) {
-  .page__content p.figure-caption,
   .page__content p.mini-caption {
     white-space: nowrap;
+  }
+  .page__content p.figure-caption {
+    white-space: normal;
   }
 }

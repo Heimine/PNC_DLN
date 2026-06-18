@@ -14,14 +14,14 @@ classes: wide
 </p>
 
 <p class="author-row">
-Peng Wang<sup>1,*</sup>, <b>Xiao Li</b><sup>1,*</sup>, Can Yaras<sup>1</sup>, Zhihui Zhu<sup>2</sup>, Laura Balzano<sup>1</sup>, Wei Hu<sup>1</sup>, Qing Qu<sup>1</sup>
+<a class="author-link" href="https://peng8wang.github.io/"><strong>Peng Wang</strong></a><sup>1,*</sup>, <a class="author-link" href="https://heimine.github.io/"><strong>Xiao Li</strong></a><sup>1,*</sup>, <a class="author-link" href="https://canyaras.com/">Can Yaras</a><sup>1</sup>, <a class="author-link" href="https://zhihuizhu.github.io/">Zhihui Zhu</a><sup>2</sup>, <a class="author-link" href="https://web.eecs.umich.edu/~girasole/">Laura Balzano</a><sup>1</sup>, <a class="author-link" href="https://weihu.me/">Wei Hu</a><sup>1</sup>, and <a class="author-link" href="https://qingqu.engin.umich.edu/"><strong>Qing Qu</strong></a><sup>1</sup>
 </p>
 <p class="affiliation-row">
 <sup>1</sup>University of Michigan &nbsp;&middot;&nbsp; <sup>2</sup>Ohio State University
 &nbsp;&middot;&nbsp; <sup>*</sup>Equal contribution
 </p>
 
-<p class="tldr-box"><strong>TL;DR.</strong> Each layer of a trained deep network compresses within-class features and discriminates between-class features at precise, predictable rates — and a simple deep linear network is enough to prove it.</p>
+<p class="tldr-box"><strong>TL;DR.</strong> Each layer of a trained classification deep network compresses within-class features and discriminates between-class features at precise, predictable rates.</p>
 
 ---
 
@@ -74,7 +74,21 @@ $$
 
 <p class="tldr-box"><em>The compression metric <strong>decays at a geometric rate</strong>, while the discrimination metric <strong>increases at a linear rate</strong>, with respect to the number of layers.</em></p>
 
-<img class="feature-figure" src="{{ '/assets/figures/fig5_synthetic.png' | relative_url }}" alt="Compression and discrimination metrics plotted against layer index for a linear network and a nonlinear network, both showing geometric decay and linear increase respectively." width="85%" style="display:block;margin:auto;" />
+<p>More precisely, under these assumptions, the ratio of within-class compression between consecutive layers satisfies</p>
+
+$$
+\frac{C_{l+1}}{C_l} = O\!\left(\frac{\varepsilon^2}{n^{1/L}}\right),
+$$
+
+<p>while the between-class discrimination metric satisfies</p>
+
+$$
+D_l \geq 1 - O\!\left(\frac{\theta + \delta}{L}\right) \cdot (\text{linear in } l).
+$$
+
+<p>Here <span class="math-inline">\(n\)</span> is the number of samples per class, <span class="math-inline">\(L\)</span> is the network depth, and <span class="math-inline">\(\varepsilon,\theta,\delta\)</span> are the small constants from the assumptions above, controlling the data's near-orthogonality and the weights' balancedness and low-rankness. In words: with more samples or smaller residual constants, compression happens faster per layer; discrimination grows steadily and linearly regardless.</p>
+
+<img class="feature-figure" src="{{ '/assets/figures/synthetic_data.png' | relative_url }}" alt="Compression and discrimination metrics plotted against layer index for a linear network and a nonlinear network, both showing geometric decay and linear increase respectively." width="85%" style="display:block;margin:auto;" />
 <p class="figure-caption"><strong>Theory matches practice in both linear and nonlinear networks.</strong> Compression decays geometrically (log-scale plot, left); discrimination increases linearly (right) — for both a DLN and a trained MLP.</p>
 
 ---
@@ -83,8 +97,8 @@ $$
 
 <p>We validate the theorem with synthetic data matching our assumptions exactly, then show the same trend holds approximately under default PyTorch initialization, on real datasets (CIFAR-10, FashionMNIST), and even in nonlinear MLPs of varying depth — and beyond images, on a text classification benchmark.</p>
 
-<img class="feature-figure" src="{{ '/assets/figures/fig4_real_data.png' | relative_url }}" alt="Within-class compression metric decaying approximately geometrically across layers for networks trained on FashionMNIST and CIFAR-10 with default initialization." width="75%" style="display:block;margin:auto;" />
-<p class="figure-caption"><strong>Progressive compression persists with real data and default initialization.</strong> Our theoretical assumptions are a simplification — the pattern survives without them.</p>
+<img class="feature-figure" src="{{ '/assets/figures/real_data.png' | relative_url }}" alt="Within-class compression metric decaying approximately geometrically across layers for networks of varying depths (L=5,7,9) trained on FashionMNIST and CIFAR-10 with default initialization." width="75%" style="display:block;margin:auto;" />
+<p class="figure-caption"><strong>Progressive compression persists with real data and default initialization, across network depths.</strong> Our theoretical assumptions are a simplification — the pattern survives without them.</p>
 
 ---
 
@@ -98,7 +112,7 @@ $$
   <li><strong>Guidance on architecture depth.</strong> Since compression and discrimination both strengthen with depth, deeper networks better separate data — but only up to a point, since over-compression can hurt out-of-distribution generalization.</li>
 </ul>
 
-<img class="feature-figure" src="{{ '/assets/figures/fig13_projection_head.png' | relative_url }}" alt="Diagram of projection head usage during pretraining and transfer, alongside a plot showing transfer accuracy improving and feature compression decreasing as more projection head layers are added." width="85%" style="display:block;margin:auto;" />
+<img class="feature-figure" src="{{ '/assets/figures/projection_head.png' | relative_url }}" alt="Diagram of projection head usage during pretraining and transfer, alongside a plot showing transfer accuracy improving and feature compression decreasing as more projection head layers are added." width="85%" style="display:block;margin:auto;" />
 <p class="figure-caption"><strong>More projection head layers mean less feature collapse and better transfer accuracy.</strong> This empirically confirms the mechanism predicted by our theory.</p>
 
 ---
