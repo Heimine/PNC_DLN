@@ -10,7 +10,7 @@ classes: wide
 <p class="button-row">
 <a class="btn btn--success" href="https://github.com/Heimine/PNC_DLN"><i class="fab fa-github" aria-hidden="true"></i> Code</a>
 <a class="btn btn--arxiv" href="https://arxiv.org/abs/2311.02960"><i class="fas fa-file-alt" aria-hidden="true"></i> arXiv</a>
-<a class="btn btn--openreview" href="#"><i class="fas fa-book-open" aria-hidden="true"></i> JMLR</a>
+<a class="btn btn--openreview" href="https://www.jmlr.org/papers/volume26/24-0047/24-0047.pdf"><i class="fas fa-book-open" aria-hidden="true"></i> JMLR</a>
 </p>
 
 <p class="author-row">
@@ -27,15 +27,15 @@ classes: wide
 
 <p class="lead-italic"><em>What happens inside a deep network, layer by layer?</em></p>
 
-<p>Deep networks are believed to perform hierarchical feature learning: each layer builds on the last to extract increasingly meaningful structure from raw data. But despite a decade of empirical study, it remains unclear exactly how this happens — what quantitative pattern, if any, governs the transformation of features from shallow to deep layers.</p>
+<p>Deep networks are believed to perform hierarchical feature learning: each layer builds on the last to extract increasingly meaningful structure from raw data. But despite efforts on empirical study, it remains unclear exactly how this happens: what quantitative pattern, if any, governs the transformation of features from shallow to deep layers.</p>
 
 <p>Empirical studies have observed two consistent trends. First, intermediate layers <button class="inline-note-trigger" type="button" aria-expanded="false" aria-controls="note-expand" data-note-target="note-expand">expand and then compress</button> the intrinsic dimension of features as depth increases. Second, deep networks tend to produce features that are <em>within-class compressed</em> and <em>between-class discriminative</em> — a pattern closely related to the <button class="inline-note-trigger" type="button" aria-expanded="false" aria-controls="note-nc" data-note-target="note-nc">neural collapse</button> phenomenon observed at the final layer.</p>
 
 <div id="note-expand" class="inline-note-body" hidden>
-  <p>Initial layers expand the intrinsic dimension of features to make them linearly separable, while subsequent layers progressively compress them. See Alain and Bengio (2017), Ansuini et al. (2019), and Masarczyk et al. (2023).</p>
+  <p>Initial layers expand the intrinsic dimension of features to make them linearly separable, while subsequent layers progressively compress them. See <a href="https://arxiv.org/abs/1610.01644">Alain and Bengio (2017)</a>, <a href="https://arxiv.org/abs/1905.12784">Ansuini et al. (2019)</a>, and <a href="https://arxiv.org/abs/2305.19753">Masarczyk et al. (2023)</a>.</p>
 </div>
 <div id="note-nc" class="inline-note-body" hidden>
-  <p>Neural collapse refers to a phenomenon in which last-layer features from the same class become nearly identical, while features from different classes become maximally separated. See Papyan, Han, and Donoho (2020).</p>
+  <p>Neural collapse refers to a phenomenon in which last-layer features from the same class become nearly identical, while features from different classes become maximally separated. See <a href="https://arxiv.org/abs/2008.08186">Papyan et al. (2020)</a>.</p>
 </div>
 
 <img class="feature-figure" src="{{ '/assets/figures/fig1_rank_acc.png' | relative_url }}" alt="Numerical rank and training accuracy plotted against layer index for an MLP and a hybrid network, showing rank rising then falling while accuracy saturates." width="85%" style="display:block;margin:auto;" />
@@ -47,7 +47,7 @@ classes: wide
 
 <p class="lead-italic"><em>Why deep linear networks?</em></p>
 
-<p>Deep linear networks (DLNs) — networks with no nonlinear activation at all — might seem like an odd place to look for insight into nonlinear feature learning. But we find that linear layers placed deep in a network behave remarkably like their nonlinear counterparts: once early layers have made features linearly separable, the deeper layers' job is simply to compress and discriminate, a role that linear layers perform just as well.</p>
+<p>Deep linear networks (DLNs) are a kind of network with no nonlinear activation but a cascade of linear layers. But we find that linear layers placed deep in a network behave remarkably like their nonlinear counterparts: once early layers have made features linearly separable, the deeper layers' job is simply to compress and discriminate, a role that linear layers perform just as well.</p>
 
 <img class="feature-figure" src="{{ '/assets/figures/fig2_umap.png' | relative_url }}" alt="UMAP visualization of features at layers 1, 2, 4, and 6 for a nonlinear MLP and a hybrid network, showing increasingly separated and compact class clusters." width="85%" style="display:block;margin:auto;" />
 <p class="figure-caption"><strong>Linear layers replicate the deep-layer behavior of nonlinear networks.</strong> A hybrid network (nonlinear layers followed by linear layers) shows the same progressive class separation as a fully nonlinear MLP.</p>
@@ -69,7 +69,7 @@ $$
 <p>Our main theoretical result, proved under <button class="inline-note-trigger" type="button" aria-expanded="false" aria-controls="note-assump" data-note-target="note-assump">mild assumptions</button> on the data and trained weights, is strikingly simple:</p>
 
 <div id="note-assump" class="inline-note-body" hidden>
-  <p>We assume the training data is nearly orthonormal (a common simplifying assumption for studying implicit bias of gradient descent), and that the trained weights are minimum-norm, approximately balanced, and approximately low-rank — properties that gradient descent is known to favor.</p>
+  <p>We assume the training data is nearly orthonormal (a common simplifying assumption for studying implicit bias of gradient descent), and that the trained weights are minimum-norm, approximately balanced, and approximately low-rank.</p>
 </div>
 
 <p class="tldr-box"><em>The compression metric <strong>decays at a geometric rate</strong>, while the discrimination metric <strong>increases at a linear rate</strong>, with respect to the number of layers.</em></p>
@@ -95,7 +95,7 @@ $$
 
 <p class="lead-italic"><em>This pattern holds well beyond the assumptions</em></p>
 
-<p>We validate the theorem with synthetic data matching our assumptions exactly, then show the same trend holds approximately under default PyTorch initialization, on real datasets (CIFAR-10, FashionMNIST), and even in nonlinear MLPs of varying depth — and beyond images, on a text classification benchmark.</p>
+<p>We validate the theorem with synthetic data matching our assumptions exactly, then show the same trend holds approximately under default PyTorch initialization, on real datasets (CIFAR-10, FashionMNIST), and even in nonlinear MLPs of varying depth, and beyond images, on a text classification benchmark.</p>
 
 <img class="feature-figure" src="{{ '/assets/figures/real_data.png' | relative_url }}" alt="Within-class compression metric decaying approximately geometrically across layers for networks of varying depths (L=5,7,9) trained on FashionMNIST and CIFAR-10 with default initialization." width="75%" style="display:block;margin:auto;" />
 <p class="figure-caption"><strong>Progressive compression persists with real data and default initialization, across network depths.</strong> Our theoretical assumptions are a simplification — the pattern survives without them.</p>
@@ -107,9 +107,8 @@ $$
 <p>Beyond characterizing a previously undescribed pattern, our result has concrete implications:</p>
 
 <ul>
-  <li><strong>Neural collapse, without the unconstrained features model.</strong> Most prior neural collapse analyses treat last-layer features as free optimization variables, ignoring the network's hierarchical structure. Our theorem shows that sufficiently deep linear networks naturally exhibit neural collapse as a <em>consequence</em> of layerwise dynamics — without that assumption.</li>
+  <li><strong>Neural collapse, without the unconstrained features model.</strong> Most prior neural collapse analyses treat last-layer features as free optimization variables, ignoring the network's hierarchical structure. Our theorem shows that sufficiently deep linear networks naturally exhibit neural collapse as a <em>consequence</em> of layerwise dynamics without the unconstrained features model assumption.</li>
   <li><strong>Why projection heads help transfer learning.</strong> Contrastive learning methods discard a few extra MLP layers (the "projection head") after pretraining, keeping only the features before them. Our theory explains why: features closer to the final layer are more collapsed and thus less transferable, so backing off by a few layers preserves more usable structure.</li>
-  <li><strong>Guidance on architecture depth.</strong> Since compression and discrimination both strengthen with depth, deeper networks better separate data — but only up to a point, since over-compression can hurt out-of-distribution generalization.</li>
 </ul>
 
 <img class="feature-figure" src="{{ '/assets/figures/projection_head.png' | relative_url }}" alt="Diagram of projection head usage during pretraining and transfer, alongside a plot showing transfer accuracy improving and feature compression decreasing as more projection head layers are added." width="85%" style="display:block;margin:auto;" />
