@@ -119,3 +119,21 @@ $$
 <p class="lead-italic"><em>In short</em></p>
 
 <p>Even though deep linear networks lack the expressive power of their nonlinear counterparts, they are powerful enough to reveal — and prove — a precise, quantitative law governing how deep networks transform data into discriminative representations, layer by layer.</p>
+
+---
+
+<p class="lead-italic"><em>Citation</em></p>
+
+<p>If you find our work useful, please consider citing:</p>
+
+```bibtex
+@article{wang2025understanding,
+  title={Understanding deep representation learning via layerwise feature compression and discrimination},
+  author={Wang, Peng and Li, Xiao and Yaras, Can and Zhu, Zhihui and Balzano, Laura and Hu, Wei and Qu, Qing},
+  journal={Journal of Machine Learning Research},
+  volume={26},
+  number={220},
+  pages={1--61},
+  year={2025}
+}
+```
